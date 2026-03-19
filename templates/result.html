@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ASD Detection Result</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #eef2f7, #f8fafc);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            color: #1f2937;
+        }
+
+        .result-card {
+            background: #ffffff;
+            width: 420px;
+            max-width: 90%;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 25px;
+        }
+
+        .prediction {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 20px 0;
+            padding: 14px;
+            border-radius: 12px;
+        }
+
+        .asd {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .non-asd {
+            background: #dcfce7;
+            color: #065f46;
+        }
+
+        .stage-box {
+            margin-top: 12px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .stage-text {
+            color: #7c3aed;
+        }
+
+        .note {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        .btn {
+            margin-top: 25px;
+            display: inline-block;
+            text-decoration: none;
+            background: #2563eb;
+            color: white;
+            padding: 12px 22px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+        .footer {
+            margin-top: 18px;
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="result-card">
+
+    <!-- Icon -->
+    {% if prediction == "ASD" %}
+        <div class="icon">⚠️</div>
+    {% else %}
+        <div class="icon">✅</div>
+    {% endif %}
+
+    <h1>Detection Result</h1>
+    <p class="subtitle">AI-Based Autism Screening Outcome</p>
+
+    <!-- Prediction -->
+    <div class="prediction {% if prediction == 'ASD' %}asd{% else %}non-asd{% endif %}">
+        {{ prediction }}
+    </div>
+
+    <!-- ✅ NEW: Stage Display -->
+    {% if stage %}
+    <div class="stage-box">
+        Estimated Severity: <span class="stage-text">{{ stage }}</span>
+    </div>
+    {% endif %}
+
+    <!-- Note -->
+    <p class="note">
+        This result is generated using deep learning models (CNN-LSTM and MediaPipe).
+        It is intended for screening support only and does not replace professional medical evaluation.
+    </p>
+
+    <!-- Back Button -->
+    <a href="/" class="btn">⬅ Back to Home</a>
+
+    <div class="footer">
+        © 2026 | AI-Based Autism Detection System
+    </div>
+
+</div>
+
+</body>
+</html>

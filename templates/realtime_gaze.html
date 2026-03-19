@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-Time Gaze Tracking</title>
+
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial;
+            background: #eef3f7;
+        }
+
+        .container {
+            position: relative;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        video, canvas {
+            width: 640px;
+            height: 480px;
+            border-radius: 10px;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #timer {
+            font-size: 2em;
+            color: red;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>📷 Real-Time Eye Gaze Tracking</h2>
+
+<div class="container">
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas"></canvas>
+</div>
+
+<div id="timer">10</div>
+
+<!-- MediaPipe -->
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+
+<script>
+const video = document.getElementById("video");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const timerEl = document.getElementById("timer");
+
+// 🎥 Start camera
+navigator.mediaDevices.getUserMedia({ video: true })
+.then(stream => {
+    video.srcObject = stream;
+})
+.catch(err => {
+    alert("Camera access denied!");
+});
+
+// 🧠 MediaPipe FaceMesh
+const faceMesh = new FaceMesh({
+    locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
+    }
+});
+
+faceMesh.setOptions({
+    maxNumFaces: 1,
+    refineLandmarks: true,
+    minDetectionConfidence: 0.5,
+    minTrackingConfidence: 0.5
+});
+
+// 🎯 Draw accurate midpoint
+faceMesh.onResults(results => {
+
+    if (!video.videoWidth) return;
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (results.multiFaceLandmarks.length > 0) {
+        const landmarks = results.multiFaceLandmarks[0];
+
+        // Eye landmarks
+        const right = landmarks[468];
+        const left = landmarks[473];
+
+        // Midpoint calculation
+        const x = ((right.x + left.x) / 2) * canvas.width;
+        const y = ((right.y + left.y) / 2) * canvas.height;
+
+        // Draw red dot
+        ctx.beginPath();
+        ctx.arc(x, y, 3, 0, 2 * Math.PI);
+        ctx.fillStyle = "red";
+        ctx.shadowBlur = 5;
+        ctx.shadowColor = "red";
+        ctx.fill();
+    }
+});
+
+// 🎥 Camera loop
+const camera = new Camera(video, {
+    onFrame: async () => {
+        await faceMesh.send({ image: video });
+    },
+    width: 640,
+    height: 480
+});
+
+camera.start();
+
+// ⏱️ Countdown Timer
+let seconds = 10;
+
+const countdown = setInterval(() => {
+    seconds--;
+    timerEl.innerText = seconds;
+
+    if (seconds <= 0) {
+        clearInterval(countdown);
+
+        // Redirect after 10 sec
+        window.location.href = "/behavior_screening";
+    }
+}, 1000);
+
+</script>
+
+</body>
+</html>
