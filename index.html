@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ASD Detection System</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #eef2f7, #f8fafc);
+            color: #1f2937;
+        }
+
+        /* ================= HERO ================= */
+        .hero {
+            max-width: 1100px;
+            margin: 50px auto 70px;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            border-radius: 22px;
+            padding: 45px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            box-shadow: 0 30px 60px rgba(30, 58, 138, 0.25);
+        }
+
+        .hero-image {
+            width: 300px;
+            border-radius: 18px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4em;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .hero p {
+            font-size: 1.05em;
+            line-height: 1.6;
+            color: #e5edff;
+        }
+
+        /* ================= CONTENT ================= */
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            margin-bottom: 70px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 35px 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+        }
+
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35em;
+            margin-bottom: 12px;
+            color: #1e3a8a;
+        }
+
+        .card p {
+            font-size: 0.95em;
+            color: #4b5563;
+            margin-bottom: 22px;
+        }
+
+        /* ================= BUTTONS ================= */
+        input[type="file"] {
+            font-size: 0.9em;
+            margin-bottom: 18px;
+            width: 100%;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95em;
+            font-weight: 500;
+            cursor: pointer;
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            color: #ffffff;
+            transition: all 0.25s ease;
+        }
+
+        button:hover {
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* ================= EYE DROPDOWN ================= */
+        .eye-options {
+            display: none;
+            margin-top: 15px;
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .eye-options button {
+            background: #e5e7eb;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+
+        .eye-options button:hover {
+            background: #d1d5db;
+        }
+
+        /* ================= FOOTER ================= */
+        .footer {
+            text-align: center;
+            font-size: 0.85em;
+            color: #6b7280;
+            margin-bottom: 35px;
+        }
+
+        .footer span {
+            display: block;
+            margin-top: 6px;
+        }
+
+        /* ================= MOBILE ================= */
+        @media screen and (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-image {
+                width: 220px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= HERO ================= -->
+<div class="hero">
+    <img src="{{ url_for('static', filename='images/pexels-tara-winstead-8378723.jpg') }}"
+     class="hero-image"
+     onerror="this.style.display='none'">
+
+    <div>
+        <h1>Autism Spectrum Disorder Detection</h1>
+        <p>
+            AI-powered multimodal screening system leveraging
+            <b>body movement analysis</b> and
+            <b>eye gaze behavior</b> to support early ASD identification.
+        </p>
+    </div>
+</div>
+
+<!-- ================= CONTENT ================= -->
+<div class="container">
+    <div class="cards">
+
+        <!-- Motion Detection -->
+        <div class="card">
+            <h3>Motion-Based ASD Detection</h3>
+            <p>
+                Analyzes posture and body movement patterns using
+                CNN–LSTM deep learning architecture.
+            </p>
+
+            <form action="/predict_video" method="POST" enctype="multipart/form-data">
+                <input type="file" name="file" accept="video/*" required>
+                <button type="submit">Analyze Movement</button>
+            </form>
+        </div>
+
+        <!-- Eye Gaze Detection -->
+        <div class="card">
+            <h3>Eye Gaze & Attention Analysis</h3>
+            <p>
+                Evaluates real-time or recorded eye movement behavior
+                to assess attention patterns.
+            </p>
+
+            <button onclick="toggleEyeOptions()">Choose Eye Detection Method</button>
+
+            <div class="eye-options" id="eyeOptions">
+
+                <form action="/start_gaze_live" method="POST">
+                    <button type="submit">📷 Real-time Webcam Eye Tracking</button>
+                </form>
+
+                <form action="/upload_asd_video" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="file" accept="video/*" required>
+                    <button type="submit">📼 Upload Eye Movement Video</button>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<div class="footer">
+    <span>Built using Deep Learning, CNN–LSTM & MediaPipe</span>
+    <span>⚠ Screening support only – not a medical diagnosis</span>
+    <span>© 2026 AI-Based Autism Screening System</span>
+</div>
+
+<!-- ================= JS ================= -->
+<script>
+function toggleEyeOptions() {
+    const box = document.getElementById("eyeOptions");
+    box.style.display = box.style.display === "block" ? "none" : "block";
+}
+</script>
+
+</body>
+</html>
