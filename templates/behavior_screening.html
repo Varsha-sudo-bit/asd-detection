@@ -1,66 +1,216 @@
-<h2>Behavior Screening Questionnaire</h2>
-<form action="/submit_behavior" method="post">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Behavior Screening</title>
 
-<div class="question">
-1. Does the child maintain eye contact?<br>
-<input type="radio" name="q1" value="1" required> Yes
-<input type="radio" name="q1" value="0"> No
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #4f46e5, #9333ea);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+    from {opacity:0; transform: translateY(20px);}
+    to {opacity:1; transform: translateY(0);}
+}
+
+h2 {
+    text-align: center;
+    color: #4f46e5;
+}
+
+/* Progress Bar */
+.progress-bar {
+    width: 100%;
+    background: #e5e7eb;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.progress {
+    height: 10px;
+    width: 0%;
+    background: linear-gradient(135deg, #4f46e5, #9333ea);
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+.question {
+    background: #f9fafb;
+    padding: 18px;
+    border-radius: 14px;
+    margin-bottom: 15px;
+    transition: 0.3s;
+}
+
+.question:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+}
+
+.options {
+    margin-top: 10px;
+}
+
+.options label {
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+input[type="radio"] {
+    accent-color: #4f46e5;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #4f46e5, #9333ea);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>🧠 Behavioral Screening Questionnaire</h2>
+
+    <!-- Progress -->
+    <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+    </div>
+
+    <form action="/submit_behavior" method="post" id="form">
+
+        <div class="question">
+            1. Does the child maintain eye contact?
+            <div class="options">
+                <label><input type="radio" name="q1" value="1" required> Yes</label>
+                <label><input type="radio" name="q1" value="0"> No</label>
+            </div>
+        </div>
+
+        <div class="question">
+            2. Does the child respond when called by name?
+            <div class="options">
+                <label><input type="radio" name="q2" value="1" required> Yes</label>
+                <label><input type="radio" name="q2" value="0"> No</label>
+            </div>
+        </div>
+
+        <div class="question">
+            3. Does the child show repetitive movements?
+            <div class="options">
+                <label><input type="radio" name="q3" value="1" required> Yes</label>
+                <label><input type="radio" name="q3" value="0"> No</label>
+            </div>
+        </div>
+
+        <div class="question">
+            4. Does the child prefer playing alone?
+            <div class="options">
+                <label><input type="radio" name="q4" value="1" required> Yes</label>
+                <label><input type="radio" name="q4" value="0"> No</label>
+            </div>
+        </div>
+
+        <div class="question">
+            5. Does the child have delayed speech development?
+            <div class="options">
+                <label><input type="radio" name="q5" value="1" required> Yes</label>
+                <label><input type="radio" name="q5" value="0"> No</label>
+            </div>
+        </div>
+
+        <div class="question">
+            6. Does the child avoid social interaction?
+            <div class="options">
+                <label><input type="radio" name="q6" value="1" required> Yes</label>
+                <label><input type="radio" name="q6" value="0"> No</label>
+            </div>
+        </div>
+
+        <div class="question">
+            7. Does the child get upset with routine changes?
+            <div class="options">
+                <label><input type="radio" name="q7" value="1" required> Yes</label>
+                <label><input type="radio" name="q7" value="0"> No</label>
+            </div>
+        </div>
+
+        <div class="question">
+            8. Does the child show unusual sensory behavior?
+            <div class="options">
+                <label><input type="radio" name="q8" value="1" required> Yes</label>
+                <label><input type="radio" name="q8" value="0"> No</label>
+            </div>
+        </div>
+
+        <div class="question">
+            9. Does the child have difficulty understanding emotions?
+            <div class="options">
+                <label><input type="radio" name="q9" value="1" required> Yes</label>
+                <label><input type="radio" name="q9" value="0"> No</label>
+            </div>
+        </div>
+
+        <div class="question">
+            10. Does the child avoid eye gaze frequently?
+            <div class="options">
+                <label><input type="radio" name="q10" value="1" required> Yes</label>
+                <label><input type="radio" name="q10" value="0"> No</label>
+            </div>
+        </div>
+
+        <button type="submit">🚀 Submit Screening</button>
+
+    </form>
 </div>
 
-<div class="question">
-2. Does the child respond when called by name?<br>
-<input type="radio" name="q2" value="1" required> Yes
-<input type="radio" name="q2" value="0"> No
-</div>
+<script>
+// Progress bar logic
+const radios = document.querySelectorAll("input[type='radio']");
+const progress = document.getElementById("progress");
 
-<div class="question">
-3. Does the child show repetitive movements?<br>
-<input type="radio" name="q3" value="1" required> Yes
-<input type="radio" name="q3" value="0"> No
-</div>
+radios.forEach(radio => {
+    radio.addEventListener("change", () => {
+        let answered = 0;
+        for (let i = 1; i <= 10; i++) {
+            if (document.querySelector(`input[name="q${i}"]:checked`)) {
+                answered++;
+            }
+        }
+        progress.style.width = (answered * 10) + "%";
+    });
+});
+</script>
 
-<div class="question">
-4. Does the child prefer playing alone?<br>
-<input type="radio" name="q4" value="1" required> Yes
-<input type="radio" name="q4" value="0"> No
-</div>
-
-<div class="question">
-5. Does the child have delayed speech development?<br>
-<input type="radio" name="q5" value="1" required> Yes
-<input type="radio" name="q5" value="0"> No
-</div>
-
-<div class="question">
-6. Does the child avoid social interaction?<br>
-<input type="radio" name="q6" value="1" required> Yes
-<input type="radio" name="q6" value="0"> No
-</div>
-
-<div class="question">
-7. Does the child get upset with routine changes?<br>
-<input type="radio" name="q7" value="1" required> Yes
-<input type="radio" name="q7" value="0"> No
-</div>
-
-<div class="question">
-8. Does the child show unusual sensory behavior?<br>
-<input type="radio" name="q8" value="1" required> Yes
-<input type="radio" name="q8" value="0"> No
-</div>
-
-<div class="question">
-9. Does the child have difficulty understanding emotions?<br>
-<input type="radio" name="q9" value="1" required> Yes
-<input type="radio" name="q9" value="0"> No
-</div>
-
-<div class="question">
-10. Does the child avoid eye gaze frequently?<br>
-<input type="radio" name="q10" value="1" required> Yes
-<input type="radio" name="q10" value="0"> No
-</div>
-
-<br>
-<button type="submit">Submit Screening</button>
-</form>
+</body>
+</html>
